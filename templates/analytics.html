@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Performance Analytics - Pulse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Simple Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="brand-logo">
+                Pulse <span class="accent">Analytics</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                {% if session.get('role') == 'student' %}
+                    <li><a href="{{ url_for('quiz') }}">Take Quiz</a></li>
+                    <li><span class="user-badge">{{ session.get('name') }}</span></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% elif session.get('role') == 'admin' %}
+                    <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                    <li><span class="user-badge">Admin</span></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Student Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">
+                                <span>{{ message }}</span>
+                                <button type="button" class="close-flash">&times;</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Title -->
+            <div style="margin-bottom: 24px;">
+                <h1 style="font-size: 22px; font-weight: 700; color: #0f172a;">Academic Performance Analytics</h1>
+                <p style="font-size: 13px; color: #64748b;">
+                    Statistical aggregation powered by <strong>Pandas</strong>, <strong>NumPy</strong>, and <strong>Matplotlib</strong> reading directly from <code>data/results.csv</code>.
+                </p>
+            </div>
+
+            {% if has_data %}
+                <!-- Metric Cards -->
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-num">{{ total_attempts }}</div>
+                        <div class="stat-label">Total Quiz Attempts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" style="color: #10b981;">{{ highest_score }}%</div>
+                        <div class="stat-label">Highest Score (Pandas Max)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" style="color: #3b82f6;">{{ average_score }}%</div>
+                        <div class="stat-label">Average Score (NumPy Mean)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" style="color: #ef4444;">{{ lowest_score }}%</div>
+                        <div class="stat-label">Lowest Score (Pandas Min)</div>
+                    </div>
+                </div>
+
+                <!-- Matplotlib Bar Chart Card -->
+                <div class="card">
+                    <h2 class="card-title">Score Distribution Visualizer (Matplotlib)</h2>
+                    <p style="font-size: 13px; color: #64748b; margin-top: -10px; margin-bottom: 16px;">
+                        Bar chart dynamically generated on the Flask backend representing recent quiz attempts against the class average.
+                    </p>
+                    <div class="chart-wrapper">
+                        <img src="{{ url_for('static', filename='images/analytics_chart.png') }}?v={{ cache_buster }}" alt="Performance Analytics Chart">
+                    </div>
+                </div>
+
+                <!-- Recent Attempts Table Card -->
+                <div class="card">
+                    <h2 class="card-title">Recent Quiz Attempts Log</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Attempt ID</th>
+                                    <th>Student Name</th>
+                                    <th>Username</th>
+                                    <th style="text-align: center;">Score</th>
+                                    <th style="text-align: center;">Percentage</th>
+                                    <th style="text-align: center;">Grade</th>
+                                    <th>Date & Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for r in recent_records %}
+                                    <tr>
+                                        <td><strong>{{ r.result_id }}</strong></td>
+                                        <td>{{ r.name }}</td>
+                                        <td><code>{{ r.username }}</code></td>
+                                        <td style="text-align: center;">{{ r.score }} / {{ r.total_marks }}</td>
+                                        <td style="text-align: center;"><strong>{{ r.percentage }}%</strong></td>
+                                        <td style="text-align: center;">
+                                            <span class="badge 
+                                                {% if r.grade == 'A' %}badge-green
+                                                {% elif r.grade == 'B' %}badge-blue
+                                                {% else %}badge-blue{% endif %}">
+                                                Grade {{ r.grade }}
+                                            </span>
+                                        </td>
+                                        <td style="font-size: 12px; color: #64748b;">{{ r.date_time }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="card" style="text-align: center; padding: 40px;">
+                    <h2>No Analytics Data Available Yet</h2>
+                    <p style="color: #64748b; margin: 12px 0 20px;">
+                        No quiz attempts have been recorded in <code>results.csv</code>. Take a quiz to generate performance statistics!
+                    </p>
+                    <a href="{{ url_for('quiz') }}" class="btn btn-primary">Take Quiz Now</a>
+                </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Pulse – Student Quiz & Academic Performance System &bull; First-Year B.Tech CS Mini Project</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

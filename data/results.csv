@@ -1,0 +1,7 @@
+result_id,username,name,total_questions,correct_answers,wrong_answers,score,total_marks,percentage,grade,date_time
+R1001,student1,Rahul Sharma,10,8,2,8,10,80.0,B,2026-11-10 11:30:22
+R1002,student1,Rahul Sharma,10,9,1,9,10,90.0,A,2026-11-10 14:15:10
+R1003,priya_k,Priya Kapoor,10,7,3,7,10,70.0,C,2026-11-10 16:45:00
+R1004,amit_v,Amit Verma,10,5,5,5,10,50.0,D,2026-11-11 09:20:15
+R1005,testuser,Test Student,10,2,8,2,10,20.0,F,2026-11-11 11:37:06
+R1006,sangwansonakshi9@gmail.com,Sonakshi Sangwan,10,6,4,6,10,60.0,C,2026-11-11 11:54:20

@@ -1,0 +1,16 @@
+id,subject,question,option_a,option_b,option_c,option_d,correct_answer,marks
+Q101,C Programming,What is the correct format specifier for printing an integer in C?,%d,%f,%c,%s,A,1
+Q102,C Programming,Which of the following is NOT a valid C variable name?,my_var,2count,_count,total_sum,B,1
+Q103,C Programming,Which operator is used to access the value at an address stored in a pointer?,&,*,->,.,B,1
+Q104,Python,Which keyword is used to define a function in Python?,func,def,function,define,B,1
+Q105,Python,Which of the following data types in Python is immutable?,List,Dictionary,Tuple,Set,C,1
+Q106,Computer Basics,What does CPU stand for?,Central Processing Unit,Central Program Unit,Computer Personal Unit,Control Processing Utility,A,1
+Q107,Computer Basics,Which type of computer memory is volatile?,ROM,RAM,Hard Disk,Flash Drive,B,1
+Q108,Data Structures,Which data structure follows the Last-In-First-Out (LIFO) principle?,Queue,Stack,Array,Linked List,B,1
+Q109,C Programming,Which header file is required to use printf() and scanf() in C?,<stdlib.h>,<math.h>,<stdio.h>,<string.h>,C,1
+Q110,Python,What will be the output of print(2 ** 3) in Python?,6,8,9,5,B,1
+Q111,Data Structures,What is the time complexity to access an element by index in an array?,O(1),O(n),O(log n),O(n^2),A,1
+Q112,Computer Basics,How many bits make up 1 Byte?,4 bits,8 bits,16 bits,32 bits,B,1
+Q113,C Programming,Which loop is guaranteed to execute at least once in C?,for,while,do-while,none of these,C,1
+Q114,Python,Which built-in Python function returns the number of items in a list?,count(),size(),len(),length(),C,1
+Q115,Computer Basics,What does HTTP stand for in computer networking?,HyperText Transfer Protocol,Hyper Transfer Tech Protocol,High Text Transfer Program,Hyperlink Text Transfer Package,A,1
